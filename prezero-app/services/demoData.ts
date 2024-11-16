@@ -5,7 +5,7 @@ const demoData = {
     { id: '3', name: 'Metal Can', points: 2, image: require('../assets/metal.png') },
   ],
   rewards: [
-    { id: '1', name: 'Free Coffee', points: 120 },
+    // { id: '1', name: 'Free Coffee', points: 120 },
     { id: '2', name: 'Discount Coupon', points: 200 },
   ],
 };

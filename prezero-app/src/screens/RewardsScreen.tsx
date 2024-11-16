@@ -1,44 +1,114 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import Card from '../../components/Shared/Card';
-import demoData from '../../services/demoData';
+import React, { useState } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 const RewardsScreen = () => {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Rewards</Text>
-        <FlatList
-          data={demoData.rewards}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.itemContainer}>
-              <Card item={item} />
-              <QRCode value={JSON.stringify(item)} size={100} />
+  const [offers, setOffers] = useState([
+    {
+      id: '1',
+      title: 'Free Coffee',
+      description: 'Get a free coffee with 200 points',
+      points: 200,
+      image: require('../../assets/coffee.png'),
+    },
+    {
+      id: '2',
+      title: 'Discount on Bread',
+      description: '15% off on bread, valid until today',
+      points: 150,
+      image: require('../../assets/bread.png'),
+    },
+    {
+      id: '3',
+      title: 'Reusable Bottle Discount',
+      description: '20% off on reusable bottles',
+      points: 300,
+      image: require('../../assets/bottle.png'),
+    },
+  ]);
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Available Offers</Text>
+      <FlatList
+        data={offers}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.offerContainer}>
+            <Image source={item.image} style={styles.offerImage} />
+            <View style={styles.offerDetails}>
+              <Text style={styles.offerTitle}>{item.title}</Text>
+              <Text style={styles.offerDescription}>{item.description}</Text>
+              <Text style={styles.offerPoints}>{item.points} points</Text>
+              <TouchableOpacity style={styles.activateButton}>
+                <Text style={styles.activateButtonText}>Activate</Text>
+              </TouchableOpacity>
             </View>
-          )}
-        />
-      </View>
-    );
-  };
-  
+          </View>
+        )}
+      />
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
       backgroundColor: '#f3f4f6',
+      padding: 10,
     },
     header: {
       fontSize: 24,
       fontWeight: 'bold',
-      marginVertical: 20,
+      marginBottom: 20,
       color: '#374151',
     },
-    itemContainer: {
+    offerContainer: {
+      flexDirection: 'row',
+      backgroundColor: '#fff',
+      marginBottom: 10,
+      borderRadius: 8,
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowRadius: 3,
+      padding: 10,
       alignItems: 'center',
-      marginBottom: 20,
     },
-  });
-  
-  export default RewardsScreen;
+    offerImage: {
+      width: 60,
+      height: 60,
+      borderRadius: 30,
+      marginRight: 10,
+    },
+    offerDetails: {
+        flex: 1,
+      },
+      offerTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      offerDescription: {
+        fontSize: 14,
+        color: '#555',
+        marginBottom: 5,
+      },
+      offerPoints: {
+        fontSize: 14,
+        color: '#10b981',
+        marginBottom: 10,
+      },
+      activateButton: {
+        backgroundColor: '#10b981',
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: 5,
+        alignItems: 'center',
+      },
+      activateButtonText: {
+        color: '#fff',
+        fontSize: 14,
+      },
+    });
+
+    export default RewardsScreen;
+    

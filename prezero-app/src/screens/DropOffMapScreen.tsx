@@ -1,11 +1,12 @@
+// src/screens/DropOffMapScreen.tsx
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 
 const DropOffMapScreen = () => {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [location, setLocation] = useState<Location.LocationObjectCoords | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [locations, setLocations] = useState([
     { id: "1", name: "Cafe Green", latitude: 37.7749, longitude: -122.4194 },
     { id: "2", name: "Eco Store", latitude: 37.775, longitude: -122.4185 },
@@ -17,74 +18,94 @@ const DropOffMapScreen = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
         return;
       }
 
-      let userLocation = await Location.getCurrentPositionAsync({});
-      setLocation(userLocation.coords);
+      let currentLocation = await Location.getCurrentPositionAsync({});
+      setLocation(currentLocation.coords);
     })();
   }, []);
 
-  let text = 'Finding your location...';
   if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = `Latitude: ${location.latitude}, Longitude: ${location.longitude}`;
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{errorMsg}</Text>
+      </View>
+    );
+  }
+
+  if (!location) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Fetching your location...</Text>
+      </View>
+    );
   }
 
   return (
     <View style={styles.container}>
-      {location ? (
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-          }}
-        >
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
+      >
+        {locations.map((loc) => (
           <Marker
+            key={loc.id}
             coordinate={{
-              latitude: location.latitude,
-              longitude: location.longitude,
+              latitude: loc.latitude,
+              longitude: loc.longitude,
             }}
-            title="Your Location"
+            title={loc.name}
+            description={"Drop off your recyclables here!"}
           />
-          {locations.map((loc) => (
-            <Marker
-              key={loc.id}
-              coordinate={{
-                latitude: loc.latitude,
-                longitude: loc.longitude,
-              }}
-              title={loc.name}
-            />
-          ))}
-        </MapView>
-      ) : (
-        <Text style={styles.text}>{text}</Text>
-      )}
+        ))}
+
+        <Marker
+          coordinate={{ latitude: location.latitude, longitude: location.longitude }}
+          title="Your Location"
+          pinColor="blue"
+        />
+      </MapView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    map: {
-      flex: 1,
-    },
-    text: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      fontSize: 16,
-    },
-  });
-  
-  export default DropOffMapScreen;
-  
+  container: {
+    flex: 1,
+  },
+  map: {
+    flex: 1,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f8d7da",
+  },
+  errorText: {
+    color: "#721c24",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff3cd",
+  },
+  loadingText: {
+    color: "#856404",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+});
+
+export default DropOffMapScreen;
