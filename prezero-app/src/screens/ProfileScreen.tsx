@@ -21,8 +21,8 @@ const ProfileScreen = () => {
       </View>
 
       <View style={styles.statsContainer}>
-        <Text style={styles.stat}>Recycled Items: {userStats.recycledItems}</Text>
-        <Text style={styles.stat}>Carbon Saved: {userStats.carbonSaved} kg</Text>
+        <Text style={styles.stat}>Container reused: {userStats.recycledItems} times</Text>
+        <Text style={styles.stat}>Co2 Emissions prevented: {userStats.carbonSaved} kg</Text>
       </View>
 
       <View style={styles.qrContainer}>

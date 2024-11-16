@@ -1,6 +1,6 @@
 // src/screens/DropOffMapScreen.tsx
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
+import { View, Text, StyleSheet, FlatList, ScrollView, TouchableOpacity, Alert } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 
@@ -8,23 +8,25 @@ const DropOffMapScreen = () => {
   const [location, setLocation] = useState<Location.LocationObjectCoords | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [locations, setLocations] = useState([
-    { id: "1", name: "Cafe Green", latitude: 37.7749, longitude: -122.4194, address: "123 Main St", distance: "1.5 km" },
-    { id: "2", name: "Eco Store", latitude: 37.775, longitude: -122.4185, address: "456 Elm St", distance: "2.0 km" },
-    { id: "3", name: "Recycle Hub", latitude: 37.7745, longitude: -122.4202, address: "789 Oak St", distance: "2.5 km" },
-    { id: "4", name: "Green Planet Cafe", latitude: 37.7735, longitude: -122.4190, address: "321 Pine St", distance: "3.0 km" },
-    { id: "5", name: "Sustainable Shop", latitude: 37.7739, longitude: -122.4208, address: "654 Maple St", distance: "3.5 km" },
+    { id: "1", name: "Cafe Green", latitude: 49.1406, longitude: 9.2205, address: "123 Future St", distance: "0.5 km" },
+    { id: "2", name: "Eco Store", latitude: 49.141, longitude: 9.222, address: "456 Eco Rd", distance: "0.8 km" },
+    { id: "3", name: "Recycle Hub", latitude: 49.139, longitude: 9.219, address: "789 Green Blvd", distance: "1.0 km" },
   ]);
 
   const [newDropOffs, setNewDropOffs] = useState([
-    { id: "6", name: "Eco Drop", latitude: 37.7725, longitude: -122.4215, address: "432 Cedar St", distance: "2.0 km" },
-    { id: "7", name: "Green Drop", latitude: 37.7728, longitude: -122.4197, address: "789 Birch St", distance: "2.2 km" },
+    { id: "4", name: "Bio Cafe", latitude: 49.142, longitude: 9.223, address: "123 Bio Lane", distance: "0.6 km" },
+    { id: "5", name: "Green Drop", latitude: 49.140, longitude: 9.221, address: "456 Nature Way", distance: "0.7 km" },
   ]);
+
+  const handleLocationSelect = (locationName: string) => {
+    Alert.alert("Location Selected", `You have selected ${locationName} as your drop-off point.`);
+  };
 
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
         return;
       }
 
@@ -78,20 +80,28 @@ const DropOffMapScreen = () => {
           <ScrollView style={styles.listContainer}>
             <Text style={styles.sectionTitle}>Nearby Drop-Off Locations</Text>
             {locations.map((item) => (
-              <View key={item.id} style={styles.listItem}>
+              <TouchableOpacity
+                key={item.id}
+                style={styles.listItem}
+                onPress={() => handleLocationSelect(item.name)}
+              >
                 <Text style={styles.itemName}>{item.name}</Text>
                 <Text style={styles.itemAddress}>{item.address}</Text>
                 <Text style={styles.itemDistance}>{item.distance}</Text>
-              </View>
+              </TouchableOpacity>
             ))}
 
             <Text style={styles.sectionTitle}>New Drop-Off Suggestions</Text>
             {newDropOffs.map((item) => (
-              <View key={item.id} style={styles.listItem}>
+              <TouchableOpacity
+                key={item.id}
+                style={styles.listItem}
+                onPress={() => handleLocationSelect(item.name)}
+              >
                 <Text style={styles.itemName}>{item.name}</Text>
                 <Text style={styles.itemAddress}>{item.address}</Text>
                 <Text style={styles.itemDistance}>{item.distance}</Text>
-              </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </>
