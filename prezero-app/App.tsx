@@ -27,7 +27,7 @@ export default function App() {
             } else if (route.name === 'Rewards') {
               iconName = focused ? 'gift' : 'gift-outline';
             } else {
-              iconName = 'help'; // Default fallback
+              iconName = 'help';
             }
 
             return <Ionicons name={iconName} size={size || 20} color={color} />;

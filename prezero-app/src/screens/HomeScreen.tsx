@@ -6,7 +6,7 @@ import demoData from '../../services/demoData'
 const HomeScreen = () => {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Recycling Categories</Text>
+        <Text style={styles.header}>Reusables</Text>
         <FlatList
           data={demoData.items}
           keyExtractor={(item) => item.id}
