@@ -6,6 +6,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import ScannerScreen from './src/screens/ScannerScreen';
 import DropOffMapScreen from './src/screens/DropOffMapScreen';
 import RewardsScreen from './src/screens/RewardsScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -18,17 +19,18 @@ export default function App() {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName: keyof typeof Ionicons.glyphMap;
 
-            if (route.name === 'Home') {
+            if (route.name === 'Home')
               iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Scan') {
+            else if (route.name === 'Scan')
               iconName = focused ? 'qr-code' : 'qr-code-outline';
-            } else if (route.name === 'Drop-Off Map') {
+            else if (route.name === 'Drop-Off Map')
               iconName = focused ? 'map' : 'map-outline';
-            } else if (route.name === 'Rewards') {
+            else if (route.name === 'Rewards')
               iconName = focused ? 'gift' : 'gift-outline';
-            } else {
+            else if (route.name === 'Profile')
+              iconName = focused ? 'person' : 'person-outline';
+            else
               iconName = 'help';
-            }
 
             return <Ionicons name={iconName} size={size || 20} color={color} />;
           },
@@ -40,6 +42,7 @@ export default function App() {
         <Tab.Screen name="Scan" component={ScannerScreen} />
         <Tab.Screen name="Drop-Off Map" component={DropOffMapScreen} />
         <Tab.Screen name="Rewards" component={RewardsScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
