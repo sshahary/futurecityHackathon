@@ -26,3 +26,65 @@ const DropOffMapScreen = () => {
       setLocation(userLocation.coords);
     })();
   }, []);
+
+  let text = 'Finding your location...';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = `Latitude: ${location.latitude}, Longitude: ${location.longitude}`;
+  }
+
+  return (
+    <View style={styles.container}>
+      {location ? (
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          }}
+        >
+          <Marker
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+            title="Your Location"
+          />
+          {locations.map((loc) => (
+            <Marker
+              key={loc.id}
+              coordinate={{
+                latitude: loc.latitude,
+                longitude: loc.longitude,
+              }}
+              title={loc.name}
+            />
+          ))}
+        </MapView>
+      ) : (
+        <Text style={styles.text}>{text}</Text>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    map: {
+      flex: 1,
+    },
+    text: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      fontSize: 16,
+    },
+  });
+  
+  export default DropOffMapScreen;
+  
