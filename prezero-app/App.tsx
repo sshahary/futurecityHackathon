@@ -39,7 +39,7 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Scan" component={ScannerScreen} />
+        {/* <Tab.Screen name="Scan" component={ScannerScreen} /> */}
         <Tab.Screen name="Drop-Off Map" component={DropOffMapScreen} />
         <Tab.Screen name="Rewards" component={RewardsScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
