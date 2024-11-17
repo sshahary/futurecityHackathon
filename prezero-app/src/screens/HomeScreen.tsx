@@ -11,6 +11,8 @@ const HomeScreen = () => {
           data={demoData.items}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <Card item={item} />}
+          numColumns={2}
+          horizontal={false}
         />
       </View>
     );
