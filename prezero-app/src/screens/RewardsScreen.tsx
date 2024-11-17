@@ -6,22 +6,22 @@ const RewardsScreen = () => {
   const [offers, setOffers] = useState([
     {
       id: '1',
-      title: 'Free Coffee',
-      description: 'Get a free coffee with 200 points',
+      title: 'Mcdonald',
+      description: '10% off on any burgers',
       points: 200,
       image: require('../../assets/coffee.png'),
     },
     {
       id: '2',
-      title: 'Discount on Bread',
-      description: '15% off on bread, valid until today',
+      title: 'Burger Heart',
+      description: '15% off on all types of beverages',
       points: 150,
       image: require('../../assets/bread.png'),
     },
     {
       id: '3',
-      title: 'Reusable Bottle Discount',
-      description: '20% off on reusable bottles',
+      title: 'IPAI Cafe',
+      description: '10% off on Coffee and/or Tee',
       points: 300,
       image: require('../../assets/bottle.png'),
     },
