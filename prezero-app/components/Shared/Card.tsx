@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({ item }) => {
     <View style={styles.card}>
       {item.image && <Image source={item.image} style={styles.image} />}
       <Text style={styles.text}>{item.name}</Text>
-      <Text style={styles.points}>{item.points} Points</Text>
+      <Text style={styles.points}>{item.points} Reuses</Text>
     </View>
   );
 };
